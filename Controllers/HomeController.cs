@@ -2,6 +2,9 @@
 using SubscribeUsers.Models;
 using System;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Mail;
+
 
 namespace SubscribeUsers.Controllers
 {
@@ -19,12 +22,14 @@ namespace SubscribeUsers.Controllers
             return View();
         }
 
-        public async Task<IActionResult> SubmitDetails([FromBody]Subusers subusers)
+        public async Task<IActionResult> SubmitDetails(Subusers subusers)
         {
             if (subusers == null)
             {
                 return new JsonResult("object is null");
             }
+
+            var useremail = subusers.Uemail;
 
             Subusers UD = new Subusers();
             UD.Uname = subusers.Uname;
@@ -40,15 +45,26 @@ namespace SubscribeUsers.Controllers
             {
                 Console.Write(e);
             }
-            return new JsonResult(new
-            {
-                idOfTheNewField = UD.Uid
-            });
-        }
 
-        public IActionResult Privacy()
-        {
-            return View();
+            var smtpClient = new SmtpClient
+            {
+                Host = "smtp-mail.outlook.com",
+                Port = 587, 
+                EnableSsl = true,
+                Credentials = new NetworkCredential("p.anuom@hotmail.com", "*5*Believer")
+            };
+
+            using (var message = new MailMessage("p.anuom@hotmail.com", useremail)
+            {
+                Subject = "Subscription successful",
+                Body = "Thank you For Subscribing - AlgoDepth"
+            })
+            {
+                await smtpClient.SendMailAsync(message);
+            }
+
+            return View("SubmitDetails");
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

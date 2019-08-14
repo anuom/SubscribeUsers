@@ -21,7 +21,7 @@ namespace SubscribeUsers.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-5R345F0;Database=SubscriberDetails;Trusted_Connection=True;");
+               optionsBuilder.UseSqlServer("Server=DESKTOP-5R345F0;Database=SubscriberDetails;Trusted_Connection=True;");
             }
         }
 
@@ -32,23 +32,17 @@ namespace SubscribeUsers.Models
             modelBuilder.Entity<Subusers>(entity =>
             {
                 entity.HasKey(e => e.Uid)
-                    .HasName("PK__subusers__C5B196020FBD91B1");
+                    .HasName("PK__subusers__C5B69A4A71D42469");
 
                 entity.ToTable("subusers");
 
-                entity.Property(e => e.Uid)
-                    .HasColumnName("UID")
-                    .ValueGeneratedNever();
-
                 entity.Property(e => e.Uemail)
                     .IsRequired()
-                    .HasColumnName("UEmail")
-                    .HasMaxLength(1)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Uname)
-                    .HasColumnName("UName")
-                    .HasMaxLength(1)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
             });
         }

@@ -5,39 +5,24 @@
 
 $(document).ready(function () {
     $('#saveSubscription').click(function () {
+        $('#exampleModal').modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
         var subusers = {};
         subusers.Uname = $("#userName").val();
         subusers.Uemail = $("#EmailAddress").val();
 
-        console.log(subusers);
+        $.ajax({
+            url: '/Home/SubmitDetails',
+            type: "POST",
+            dataType: "application/json",
+            data: subusers ,
+            success: function (data) {
 
-        //$.ajax({
-        //    url: '/Home/SubmitDetails',
-        //    type: "POST",
-        //    dataType: "application/json",
-        //    data: { subusers: userDetails },
-        //    success: function (data) {
-        //        console.log(data);
-        //    }
-        //});
+                $("#statusmessage").html("sucess");
+            }
+        });
 
-        fetch('/Home/SubmitDetails', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(subusers)
-        })
-            .then(response => {
-                return response.json();
-            })
-
-            .then(function (data) {
-                const myObj = JSON.parse(data);
-                console.log(myObj);
-            })
-
-            .catch(error => {
-                console.error(error);
-            });
     });
     
 });
