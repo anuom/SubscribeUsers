@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SubscribeUsers.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace SubscribeUsers.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ADProjContext _context;
-        public HomeController(ADProjContext context)
+        private readonly context _context;
+        public HomeController(context context)
         {
             _context = context;
         }
@@ -18,28 +19,31 @@ namespace SubscribeUsers.Controllers
             return View();
         }
 
-        public IActionResult SubmitDetails(UserDetails details)
+        public async Task<IActionResult> SubmitDetails([FromBody]Subusers subusers)
         {
-            if (details == null)
+            if (subusers == null)
             {
                 return new JsonResult("object is null");
             }
 
-            UserDetails UD = new UserDetails();
-            UD.UserName = details.UserName;
-            UD.EmailAdress = details.EmailAdress;
+            Subusers UD = new Subusers();
+            UD.Uname = subusers.Uname;
+            UD.Uemail = subusers.Uemail;
 
-            _context.UserDetails.Add(UD);
+            _context.Subusers.Add(UD);
 
             try
             {
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
                 Console.Write(e);
             }
-            return new JsonResult(UD);
+            return new JsonResult(new
+            {
+                idOfTheNewField = UD.Uid
+            });
         }
 
         public IActionResult Privacy()

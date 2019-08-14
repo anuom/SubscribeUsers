@@ -36,8 +36,8 @@ namespace SubscribeUsers
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddDbContext<ADProjContext>
-                (options => options.UseSqlServer(Configuration.GetConnectionString("ProjectConnection")));
+            var connection = "Server=DESKTOP-5R345F0;Database=SubscriberDetails;Trusted_Connection=True;";
+            services.AddDbContext<context>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +49,7 @@ namespace SubscribeUsers
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler(" / Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
