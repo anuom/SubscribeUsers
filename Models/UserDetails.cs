@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SubscribeUsers
+namespace SubscribeUsers.Models
 {
     public partial class UserDetails
     {

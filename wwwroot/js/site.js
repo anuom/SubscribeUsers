@@ -2,3 +2,24 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+$(document).ready(function () {
+    $('#saveSubscription').click(function () {
+        var userDetails = {};
+        userDetails.UserName = $("#userName").val();
+        userDetails.EmailAdress = $("#EmailAddress").val();
+
+        console.log(userDetails);
+
+        $.ajax({
+            url: '/Home/SubmitDetails',
+            type: "POST",
+            dataType: "application/json",
+            data: { details: userDetails },
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    });
+    
+});
