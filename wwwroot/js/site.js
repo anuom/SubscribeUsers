@@ -16,10 +16,9 @@ $(document).ready(function () {
             url: '/Home/SubmitDetails',
             type: "POST",
             dataType: "application/json",
-            data: subusers ,
+            data: subusers,
             success: function (data) {
-
-                $("#statusmessage").html("sucess");
+                console.log(data);
             }
         });
 

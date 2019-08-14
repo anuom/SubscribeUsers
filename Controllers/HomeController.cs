@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Mail;
-
+using System.Net.Http;
 
 namespace SubscribeUsers.Controllers
 {
@@ -62,8 +62,10 @@ namespace SubscribeUsers.Controllers
             {
                 await smtpClient.SendMailAsync(message);
             }
+            HttpStatusCode response = new HttpResponseMessage().StatusCode;
 
-            return View("SubmitDetails");
+            return Json(response);
+
 
         }
 
