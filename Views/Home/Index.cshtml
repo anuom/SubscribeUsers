@@ -5,15 +5,16 @@
 @*subscriber button*@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+
+    <button type="button" id="firstButton" class="btn btn-primary center" data-toggle="modal" data-target="#exampleModal">
+        Subscribe Me!!
+    </button>
+
     <div id="statusmessage">
-        <button type="button" id="firstButton" class="btn btn-primary center" data-toggle="modal" data-target="#exampleModal">
-            Subscribe Me!!
-        </button>
     </div>
 </div>
 
 
-@*Modal*@
 <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="Label" aria-hidden="true">
     <div class="modal-dialog row">
         <div class="modal-content">
@@ -28,12 +29,12 @@
                     @*<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>*@
                 </div>
                 @*<div>
-                <input type="checkbox" class="form-check-input" id="subscribeNot">
-                <label class="form-check-label" for="subscribeNot">Do Not Subscribe me</label>
-            </div>*@
+                    <input type="checkbox" class="form-check-input" id="subscribeNot">
+                    <label class="form-check-label" for="subscribeNot">Do Not Subscribe me</label>
+                </div>*@
             </div>
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-primary" id="saveSubscription"> Submit </button>
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary" id="saveSubscription"> Submit </button>
         </div>
     </div>
 </div>

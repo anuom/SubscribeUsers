@@ -15,13 +15,33 @@ $(document).ready(function () {
         $.ajax({
             url: '/Home/SubmitDetails',
             type: "POST",
-            dataType: "application/json",
+            dataType: "json",
             data: subusers,
             success: function (data) {
-                console.log(data);
+                switch (data) {
+                    case "Y":
+                        $("#statusmessage").removeClass("statusmessage-sucess");
+                        $("#statusmessage").removeClass("statusmessage-noentry");
+                        $("#statusmessage").addClass("statusmessage-failure");
+                        $("#statusmessage").text("This email address is already registered.");
+                        $("#firstButton").text("Subscribe another email address");
+                        break;
+                    case "N":
+                        $("#statusmessage").removeClass("statusmessage-failure");
+                        $("#statusmessage").removeClass("statusmessage-noentry");
+                        $("#statusmessage").addClass("statusmessage-sucess");
+                        $("#statusmessage").text("Thank you for subscribing!!");
+                        $("#firstButton").text("Subscribe another email address");
+                        break;
+                    case "NA":
+                        $("#statusmessage").removeClass("statusmessage-sucess");
+                        $("#statusmessage").removeClass("statusmessage-failure");
+                        $("#statusmessage").addClass("statusmessage-noentry");
+                        $("#statusmessage").text("Please enter an email address.");
+                }
             }
         });
-
+       
     });
     
 });

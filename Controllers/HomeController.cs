@@ -24,12 +24,11 @@ namespace SubscribeUsers.Controllers
             return View();
         }
 
-        public  async Task<IActionResult> SubmitDetails(Subusers subusers)
+        public async Task<JsonResult> SubmitDetails(Subusers subusers)
         {
-            var model = "existing user";
-            if (subusers == null)
+            if (subusers.Uemail == null)
             {
-                return new JsonResult("object is null");
+                return Json("NA");
             }
 
             var useremail = subusers.Uemail;
@@ -38,44 +37,43 @@ namespace SubscribeUsers.Controllers
 
             if (existingUser)
             {
-                model = "this email address is already subscribed";
-                return new JsonResult(model);
+                return Json("Y");
             }
 
-                Subusers UD = new Subusers();
+            Subusers UD = new Subusers();
                 UD.Uname = subusers.Uname;
                 UD.Uemail = subusers.Uemail;
 
-                _context.Subusers.Add(UD);
+            _context.Subusers.Add(UD);
 
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (Exception e)
-                {
-                    Console.Write(e);
-                }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+            }
 
-                var smtpClient = new SmtpClient
-                {
-                    Host = "smtp-mail.outlook.com",
-                    Port = 587,
-                    EnableSsl = true,
-                    Credentials = new NetworkCredential("p.anuom@hotmail.com", "*5*Believer")
-                };
+            var smtpClient = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                //Host = "smtp-mail.outlook.com",
+                Port = 587,
+                EnableSsl = true,
+                Credentials = new NetworkCredential("sandbox.tst.acc@gmail.com", "Sandbox_test")
+            };
 
-                using (var message = new MailMessage("p.anuom@hotmail.com", useremail)
-                {
-                    Subject = "Subscription successful",
-                    Body = "Thank you For Subscribing - AlgoDepth"
-                })
-                {
-                    await smtpClient.SendMailAsync(message);
-                }
-                HttpStatusCode response = new HttpResponseMessage().StatusCode;
-                model = "Thank you for subscribing";
-                return new JsonResult(model);
+            using (var message = new MailMessage("sandbox.tst.acc@gmail.com", useremail)
+            {
+                Subject = "Subscription successful",
+                Body = "Thank you For Subscribing - AlgoDepth"
+            })
+            {
+                await smtpClient.SendMailAsync(message);
+            }
+
+            return Json("N");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
