@@ -67,7 +67,7 @@ body {
 .statusmessage-failure {
     margin: 20px 20px 20px 20px;
     font-family: "Helvetica", "Arial", sans-serif;
-    color: red;
+    color: dodgerblue;
     font-weight: bolder;
     font-size: xx-large;
 }
@@ -75,11 +75,21 @@ body {
 .statusmessage-noentry {
     margin: 20px 20px 20px 20px;
     font-family: "Helvetica", "Arial", sans-serif;
-    color: darkblue;
+    color: white;
+    font-weight: bolder;
+    font-size: large;
+    background-color: red;
+    text-align:center;
+}
+
+.statusmessage-invalid {
+    margin: 20px 20px 20px 20px;
+    font-family: "Helvetica", "Arial", sans-serif;
+    color: indigo;
     font-weight: bolder;
     font-size: xx-large;
 }
 
 #firstButton {
-    margin: 20px 20px 20px 20px;
+    margin: 30px 30px 30px 30px;
 }

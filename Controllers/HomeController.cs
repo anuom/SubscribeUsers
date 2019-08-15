@@ -63,23 +63,23 @@ namespace SubscribeUsers.Controllers
                 EnableSsl = true,
                 Credentials = new NetworkCredential("sandbox.tst.acc@gmail.com", "Sandbox_test")
             };
-
-            using (var message = new MailMessage("sandbox.tst.acc@gmail.com", useremail)
+            try
             {
-                Subject = "Subscription successful",
-                Body = "Thank you For Subscribing - AlgoDepth"
-            })
-            {
-                await smtpClient.SendMailAsync(message);
+                using (var message = new MailMessage("sandbox.tst.acc@gmail.com", useremail)
+                {
+                    Subject = "Subscription successful",
+                    Body = "Dear "+ subusers.Uname + ", \n \n \t Thank you For Subscribing \n \n - AlgoDepth. \n \n \n PLEASE DO NOT RESPOND TO THIS EMAIL, this account is not monitored!"
+                })
+                {
+                    await smtpClient.SendMailAsync(message);
+                }
             }
-
+            catch (Exception e)
+            {
+                return Json(e);
+            }
             return Json("N");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View();
-        }
     }
 }

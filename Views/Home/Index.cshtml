@@ -14,11 +14,12 @@
     </div>
 </div>
 
-
+@*pop-up modal display*@
 <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="Label" aria-hidden="true">
     <div class="modal-dialog row">
         <div class="modal-content">
             <div class="modal-header">
+                
                 <div>
                     <label for="userName">Enter your user name: </label>
                     <input type="text" id="userName" placeholder="Name">
@@ -35,6 +36,9 @@
             </div>
             @Html.AntiForgeryToken()
             <button type="submit" class="btn btn-primary" id="saveSubscription"> Submit </button>
+            <div id="noemail">
+
+            </div>
         </div>
     </div>
 </div>
