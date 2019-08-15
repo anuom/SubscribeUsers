@@ -5,11 +5,12 @@
 
 $(document).ready(function () {
     setEvents();
-    
-
 });
+
+//function to set the event listeners and start the process
 function setEvents(){
     $('#saveSubscription').click(function () {
+        //check if the email address is not empty then call else display a message
         if ($("#EmailAddress").val() != "") {
             makeCall();
             resetValues();
@@ -20,6 +21,8 @@ function setEvents(){
         }
     });
 }
+
+//function to reset the values
 function resetValues() {
     $("#noemail").removeClass("statusmessage-noentry");
     $("#noemail").text("");
@@ -27,11 +30,13 @@ function resetValues() {
     $("#EmailAddress").val("");
 }
 
+//function to set the values if success
 function setValues(data) {
+    //add classes/styling to the message
     switch (data) {
         case "Y":
             $("#statusmessage").removeClass("statusmessage-invalid");
-            $("#statusmessage").removeClass("statusmessage-sucess");
+            $("#statusmessage").removeClass("statusmessage-success");
             $("#statusmessage").addClass("statusmessage-failure");
             $("#statusmessage").text("This email address is already registered.");
             $("#firstButton").text("Subscribe another email address");
@@ -39,39 +44,45 @@ function setValues(data) {
         case "N":
             $("#statusmessage").removeClass("statusmessage-invalid");
             $("#statusmessage").removeClass("statusmessage-failure");
-            $("#statusmessage").addClass("statusmessage-sucess");
+            $("#statusmessage").addClass("statusmessage-success");
             $("#statusmessage").text("Thank you for subscribing!!");
             $("#firstButton").text("Subscribe another email address");
             break;
         //case "NA":
-        //    $("#statusmessage").removeClass("statusmessage-sucess");
+        //    $("#statusmessage").removeClass("statusmessage-success");
         //    $("#statusmessage").removeClass("statusmessage-failure");
         //    $("#statusmessage").addClass("statusmessage-noentry");
         //    $("#statusmessage").text();
         //    break;
         default:
             $("#statusmessage").removeClass("statusmessage-failure");
-            $("#statusmessage").removeClass("statusmessage-sucess");
+            $("#statusmessage").removeClass("statusmessage-success");
             $("#statusmessage").addClass("statusmessage-invalid");
             $("#statusmessage").text("Please enter a valid email address.");
             break;
     }
 }
 
+//function to call the backend if valid
 function makeCall() {
+    //hide the pop-up
     $('#exampleModal').modal('hide');
     $('body').removeClass('modal-open');
     $('.modal-backdrop').remove();
+
+    //create object
     var subusers = {};
     subusers.Uname = $("#userName").val();
     subusers.Uemail = $("#EmailAddress").val();
 
+    //make call to the backend and send the parameter
     $.ajax({
         url: '/Home/SubmitDetails',
         type: "POST",
         dataType: "json",
         data: subusers,
         success: function (data) {
+            //on success send data to set the values
             setValues(data);
         }
     });
