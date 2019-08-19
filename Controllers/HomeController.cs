@@ -68,7 +68,6 @@ namespace SubscribeUsers.Controllers
                 EnableSsl = true,
                 Credentials = new NetworkCredential("sandbox.tst.acc@gmail.com", "Sandbox_test")
             };
-
             
             try
             {
@@ -80,9 +79,8 @@ namespace SubscribeUsers.Controllers
                 })
 
                 //send the messsage
-                {
-                    await smtpClient.SendMailAsync(message);
-                }
+                await smtpClient.SendMailAsync(message);
+                //save the changes in the database
                 await _context.SaveChangesAsync();
             }
             
