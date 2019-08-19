@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using SubscribeUsers.Models;
+using System.Net.Mail;
+using System.Net;
 
 namespace SubscribeUsers
 {
@@ -30,8 +32,21 @@ namespace SubscribeUsers
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-                
+                options.MinimumSameSitePolicy = SameSiteMode.None;                
+            });
+
+            services.AddTransient<SmtpClient>((serviceProvider) =>
+            {
+                var config = serviceProvider.GetRequiredService<IConfiguration>();
+                return new SmtpClient()
+                {
+                    Host = config.GetValue<String>("Email:Smtp:Host"),
+                    Port = config.GetValue<int>("Email:Smtp:Port"),
+                    Credentials = new NetworkCredential(
+                            config.GetValue<String>("Email:Smtp:Username"),
+                            config.GetValue<String>("Email:Smtp:Password")
+                        )
+                };
             });
 
 
