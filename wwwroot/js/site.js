@@ -68,6 +68,7 @@ function setValues(data) {
     clearText();
 }
 
+//clear the message in 2 seconds
 function clearText() {
     setTimeout(function () {
         $('#statusmessage').text("");;
