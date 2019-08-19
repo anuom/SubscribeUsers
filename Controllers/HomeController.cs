@@ -59,44 +59,33 @@ namespace SubscribeUsers.Controllers
             //add to the dataset
             _context.Subusers.Add(UD);
 
-            //save changes
+            //create an instance of smtpclient
+            SmtpClient smtpClient = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                //Host = "smtp-mail.outlook.com",
+                Port = 587,
+                EnableSsl = true,
+                Credentials = new NetworkCredential("sandbox.tst.acc@gmail.com", "Sandbox_test")
+            };
+
+            
             try
             {
+                //prepare the email message
+                using (var message = new MailMessage("sandbox.tst.acc@gmail.com", useremail)
+                {
+                    Subject = "Subscription successful",
+                    Body = "Dear " + subusers.Uname + ", \n \n \t Thank you For Subscribing \n \n - AlgoDepth. \n \n \n PLEASE DO NOT RESPOND TO THIS EMAIL, this account is not monitored!"
+                })
+
+                //send the messsage
+                {
+                    await smtpClient.SendMailAsync(message);
+                }
                 await _context.SaveChangesAsync();
             }
-            //catch exception if any
-            catch (Exception e)
-            {
-                Console.Write(e);
-            }
-
-            //create an instance of smtpclient
-            //SmtpClient smtpClient = new SmtpClient
-            //{
-            //    Host = "smtp.gmail.com",
-            //    //Host = "smtp-mail.outlook.com",
-            //    Port = 587,
-            //    EnableSsl = true,
-            //    Credentials = new NetworkCredential("sandbox.tst.acc@gmail.com", "Sandbox_test")
-            //};
-
-            //prepare the email message
-            try
-            {
-                using (var smtpClient = HttpContext.RequestServices.GetRequiredService<SmtpClient>())
-                {
-                    await smtpClient.SendMailAsync(new MailMessage(
-                        from: _config.GetValue<String>("Email:Smtp:Username"),
-                        to: subusers.Uemail,
-                        subject: "Subscription successful",
-                        body: "Dear " + subusers.Uname + ", \n \n \t Thank you For Subscribing \n \n - AlgoDepth. \n \n \n PLEASE DO NOT RESPOND TO THIS EMAIL, this account is not monitored!"
-                ));
-                    //send the messsage
-                    //    {
-                    //    await smtpClient.SendMailAsync(message);
-                    //}
-                }
-            }
+            
             //catch exception if any
             catch (Exception e)
             {
