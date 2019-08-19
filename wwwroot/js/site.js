@@ -20,6 +20,22 @@ function setEvents(){
             $("#noemail").text("Please enter an email address.");
         }
     });
+
+    //when enter key is pressed
+    $('#exampleModal').keypress(function (e) {
+        var key = e.which;
+        if (key == 13)  
+        {
+            if ($("#EmailAddress").val() != "") {
+                makeCall();
+                resetValues();
+            }
+            else {
+                $("#noemail").addClass("statusmessage-noentry");
+                $("#noemail").text("Please enter an email address.");
+            }
+        }
+    });
 }
 
 //function to reset the values
